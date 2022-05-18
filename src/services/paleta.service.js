@@ -1,35 +1,46 @@
-import { paletas } from '../models/paleta.model.js';
+import { Paleta } from '../models/paleta.model.js';
 
-export const findAllPaletas = () => {
-  return paletas;
+export const findAllPaletas = async () => {
+  const allPaletas = await Paleta.find();
+  return allPaletas;
 };
 
-export const findPaletaById = (id) => {
-  const paleta = paletas.find((p) => p.id === Number(id));
-  return paleta;
-};
-
-export const createPaleta = (params) => {
-  paletas.push({ ...params });
-  return paletas;
-};
-
-export const deletePaleta = (id) => {
-  const toBeDeleted = paletas.find((p) => p.id === id);
-  if (!toBeDeleted) {
-    return 'Not found';
+export const findPaletaById = async (id) => {
+  try {
+    const paleta = await Paleta.find({ _id: id });
+    return paleta;
+  } catch (e) {
+    const { message } = e;
+    return { message };
   }
-  paletas.splice(paletas.indexOf(toBeDeleted), 1);
-  return paletas;
 };
-export const updatePaleta = (id, params) => {
-  const toBeUpdated = paletas.find((p) => p.id === id);
-  if (!toBeUpdated) {
-    return 'Not found';
+
+export const createPaleta = async (params) => {
+  try {
+    const newPaleta = new Paleta({ ...params });
+    await newPaleta.save();
+    return newPaleta;
+  } catch (e) {
+    const { message } = e;
+    return { message };
   }
-  paletas[paletas.indexOf(toBeUpdated)] = {
-    ...paletas[paletas.indexOf(toBeUpdated)],
-    ...params,
-  };
-  return paletas;
+};
+
+export const deletePaleta = async (id) => {
+  try {
+    await Paleta.deleteOne({ _id: id });
+    return { message: 'Item deleted' };
+  } catch (e) {
+    const { message } = e;
+    return { message };
+  }
+};
+export const updatePaleta = async (id, params) => {
+  try {
+    await Paleta.updateOne({ _id: id }, { ...params });
+    return { message: 'updated' };
+  } catch (e) {
+    const { message } = e;
+    return { message };
+  }
 };
