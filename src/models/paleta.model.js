@@ -11,7 +11,7 @@ async function connectMongo() {
 }
 connectMongo();
 
-const Paleta = mongoose.model('Paleta', {
+export const Paleta = mongoose.model('Paleta', {
   id: Number,
   sabor: String,
   descricao: String,
@@ -26,7 +26,7 @@ const acai = new Paleta({
   foto: 'assets/images/acai-com-leite-condensado.png',
   preco: 10.0,
 });
-acai.save().then(() => console.log('added'));
+// acai.save().then(() => console.log('added'));
 
 export const paletas = [
   {
