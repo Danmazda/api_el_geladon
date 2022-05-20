@@ -4,10 +4,14 @@ import {
   addItem,
   deleteAll,
   deleteOne,
+  addUser, loginUser
 } from '../controllers/user.controller.js';
+import { checkIdAndEmail, checkUserAttributes } from '../middlewares/checkUserAttributes.middleware.js';
 const routesUser = Router();
 routesUser.get('/all', getAll);
-routesUser.post('/add/:id', addItem);
-routesUser.delete('/deleteAll/:id', deleteAll);
-routesUser.delete('/deleteOne/:id', deleteOne);
+routesUser.post('/add/:id', checkIdAndEmail ,addItem);
+routesUser.post('/signup', checkUserAttributes, addUser);
+routesUser.post('/signin', checkUserAttributes, loginUser);
+routesUser.delete('/deleteAll/:id', checkIdAndEmail, deleteAll);
+routesUser.delete('/deleteOne/:id', checkIdAndEmail,deleteOne);
 export default routesUser;
