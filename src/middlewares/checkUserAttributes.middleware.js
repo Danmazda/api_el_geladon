@@ -14,3 +14,14 @@ export const checkIdAndEmail = (req, res, next) => {
   }
   next();
 };
+
+export const getToken = (req, res, next) => {
+  let bearerToken = req.headers['authorization'];
+  if (!bearerToken) {
+    return res.sendStatus(403);
+  }
+  bearerToken = bearerToken.split(' ');
+  bearerToken = bearerToken[1];
+  req.body.token = bearerToken;
+  next();
+};

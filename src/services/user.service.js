@@ -11,7 +11,7 @@ export const loginUserService = async (email, password) => {
   const log = await bcrypt.compare(password, user.password);
   let token;
   log
-    ? (token = jwt.sign({ data: 'admin' }, `${jwtKey}`, { expiresIn: 60 * 30 }))
+    ? (token = jwt.sign({ user }, `${jwtKey}`, { expiresIn: 60 * 60 }))
     : (token = '');
   return { log, role: user.role, token };
 };

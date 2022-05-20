@@ -22,11 +22,12 @@ export const createPaletaController = async (req, res) => {
 
 export const deletePaletaController = async (req, res) => {
   const id = req.params.id;
-  const message = await deletePaleta(id);
+  const { token } = req.body;
+  const message = await deletePaleta(id, token);
   res.send(message);
 };
 
-export const updatePaletaController = async(req, res) => {
+export const updatePaletaController = async (req, res) => {
   const id = req.params.id;
   const params = req.body;
   const paleta = await updatePaleta(id, params);
