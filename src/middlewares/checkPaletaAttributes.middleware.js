@@ -5,3 +5,11 @@ export const checkPaletaAttributes = (req, res, next) => {
   }
   next();
 };
+
+export const checkPaletaId = (req, res, next) => {
+  const { id } = req.params;
+  if (!id || id == 'null' || id == '') {
+    return res.status(422).send('Missing Id!');
+  }
+  next();
+};

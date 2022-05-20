@@ -8,15 +8,15 @@ import {
 } from '../services/user.service.js';
 
 export const addUser = async (req, res) => {
-  const { email, password } = req.body;
-  const newUser = await createUserService(email, password);
-  res.send(newUser);
+  const { email, password } = req.body.user;
+  const message = await createUserService(email, password);
+  res.send({ message });
 };
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const loggedUser = await loginUserService(email, password);
-  res.send(loggedUser);
+  const message = await loginUserService(email, password);
+  res.send({ ...message });
 };
 
 export const getAll = async (req, res) => {

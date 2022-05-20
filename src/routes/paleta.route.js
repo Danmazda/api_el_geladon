@@ -6,12 +6,12 @@ import {
   deletePaletaController,
   updatePaletaController,
 } from '../controllers/paleta.controller.js';
-import { checkPaletaAttributes } from '../middlewares/checkPaletaAttributes.middleware.js';
+import { checkPaletaAttributes, checkPaletaId } from '../middlewares/checkPaletaAttributes.middleware.js';
 const routesPaletas = Router();
 routesPaletas.get('/all', findAll);
-routesPaletas.get('/:id', findById);
+routesPaletas.get('/:id', checkPaletaId, findById);
 routesPaletas.post('/create', checkPaletaAttributes, createPaletaController);
-routesPaletas.delete('/delete/:id', deletePaletaController);
-routesPaletas.put('/update/:id', checkPaletaAttributes, updatePaletaController);
+routesPaletas.delete('/delete/:id', checkPaletaId, deletePaletaController);
+routesPaletas.put('/update/:id', checkPaletaId, checkPaletaAttributes, updatePaletaController);
 
 export default routesPaletas;

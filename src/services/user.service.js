@@ -1,16 +1,30 @@
 import { User } from '../models/user.model.js';
+import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { Paleta } from '../models/paleta.model.js';
-
+import bcrypt from 'bcrypt';
+dotenv.config();
+const jwt = jsonwebtoken;
+const jwtKey = process.env.JWTKEY;
 export const loginUserService = async (email, password) => {
   const user = await User.findOne({ email });
-  return user.password === password;
+  const log = await bcrypt.compare(password, user.password);
+  let token;
+  log
+    ? (token = jwt.sign({ data: 'admin' }, `${jwtKey}`, { expiresIn: 60 * 30 }))
+    : (token = '');
+  return { log, role: user.role, token };
 };
 
 export const createUserService = async (email, password) => {
-  console.log(email, password);
-  const newUser = new User({ email, password });
-  await newUser.save();
-  return { message: 'created' };
+  try {
+    const newUser = new User({ email, password });
+    await newUser.save();
+    return true;
+  } catch (e) {
+    console.log(e.message);
+    return false;
+  }
 };
 
 export const getAllCart = async () => {

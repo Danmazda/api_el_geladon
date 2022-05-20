@@ -1,4 +1,7 @@
 import { Paleta } from '../models/paleta.model.js';
+import jsonwebtoken from 'jsonwebtoken';
+const jwt = jsonwebtoken;
+
 
 export const findAllPaletas = async () => {
   const allPaletas = await Paleta.find();
