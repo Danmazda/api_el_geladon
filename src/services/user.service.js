@@ -1,9 +1,11 @@
-import { User } from '../models/user.model.js';
-import jsonwebtoken from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import { Paleta } from '../models/paleta.model.js';
-import bcrypt from 'bcrypt';
+import { User } from "../models/user.model.js";
+import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
+import { Paleta } from "../models/paleta.model.js";
+import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 dotenv.config();
+const toId = mongoose.Types.ObjectId;
 const jwt = jsonwebtoken;
 const jwtKey = process.env.JWTKEY;
 export const loginUserService = async (email, password) => {
@@ -12,7 +14,7 @@ export const loginUserService = async (email, password) => {
   let token;
   log
     ? (token = jwt.sign({ user }, `${jwtKey}`, { expiresIn: 60 * 60 }))
-    : (token = '');
+    : (token = "");
   return { log, role: user.role, token };
 };
 
@@ -28,7 +30,7 @@ export const createUserService = async (email, password) => {
 };
 
 export const getAllCart = async () => {
-  const user = await User.find().populate('list');
+  const user = await User.find().populate("list");
   return user;
 };
 export const addItemToCart = async (id, email) => {
@@ -37,7 +39,7 @@ export const addItemToCart = async (id, email) => {
     const user = await User.findOne({ email });
     user.list.push(toAdd);
     await user.save();
-    return { message: 'added' };
+    return { message: "added" };
   } catch (e) {
     return { message: e.message };
   }
@@ -51,9 +53,8 @@ export const deleteAllQuantitiesFromCart = async (id, email) => {
 
 export const deleteOneItemFromCart = async (id, email) => {
   const user = await User.findOne({ email });
-  const index = user.list.findIndex((p) => p === id);
+  const index = user.list.indexOf(toId(id));
   user.list.splice(index, 1);
-  console.log(user.list);
   await user.save();
   return user;
 };
