@@ -11,6 +11,8 @@
     <ul>
       <li>Javascript</li>
       <li>ExpressJs</li>
+      <li>MongoDB</li>
+      <li>Mongoose</li>
     </ul>
   </p>
   <h2>Api deploy</h2>
